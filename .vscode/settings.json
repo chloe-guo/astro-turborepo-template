@@ -1,0 +1,17 @@
+{
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "astro", // Enable .astro
+    "typescript", // Enable .ts
+    "typescriptreact", // Enable .tsx
+    "vue"
+  ],
+  "prettier.documentSelectors": ["**/*.js", "**/*.ts", "**/*.astro", "**/*.vue"],
+  "[astro]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "prettier.prettierPath": "./node_modules/prettier/index.cjs",
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": true
+}

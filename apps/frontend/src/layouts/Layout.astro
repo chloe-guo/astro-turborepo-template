@@ -1,0 +1,52 @@
+---
+import '@/assets/styles/tailwind.css'
+
+interface Props {
+  title: string
+}
+
+const { title } = Astro.props
+---
+
+<script>
+  import Lenis from '@studio-freight/lenis'
+  import { gsap } from 'gsap'
+  import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+  /**
+   * Safari 100vh
+   */
+  let windowsVH = window.innerHeight / 100
+  document.documentElement.style.setProperty('--vh', `${windowsVH}px`)
+  window.addEventListener('resize', function () {
+    windowsVH = window.innerHeight / 100
+    document.documentElement.style.setProperty('--vh', `${windowsVH}px`)
+  })
+
+  /**
+   * GSAP ScrollTrigger integration
+   */
+  gsap.registerPlugin(ScrollTrigger)
+  const lenis = new Lenis()
+  lenis.on('scroll', ScrollTrigger.update)
+  gsap.ticker.add((time) => {
+    lenis.raf(time * 1000)
+  })
+  gsap.ticker.lagSmoothing(0)
+</script>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>
+      {title}
+    </title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,54 @@
+# GitHub Actions workflow.
+#
+# https://github.com/cloudflare/pages-action
+name: Build and deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+
+    env:
+      VERSION: ${{ github.sha }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.17.1'
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Push to project chloe-guo--backend
+        run: |
+          git init
+          git add .
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git commit -m "Build and deploy backend"
+          git push --force "https://${{ secrets.TOKEN_GITHUB }}@github.com/chloe-guo/chloe-guo--backend.git" master:master
+        working-directory: apps/backend/distro
+
+      - name: Push to project chloe-guo--frontend
+        run: |
+          git init
+          git add .
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git commit -m "Build and deploy frontend"
+          git push --force "https://${{ secrets.TOKEN_GITHUB }}@github.com/chloe-guo/chloe-guo--frontend.git" master:master
+        working-directory: apps/frontend/distro

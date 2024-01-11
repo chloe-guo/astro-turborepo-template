@@ -1,0 +1,9 @@
+{
+  "name": "chloe-guo--frontend",
+  "version": "1.0.0",
+  "description": "",
+  "license": "MIT",
+  "devDependencies": {
+    "wrangler": "^3.18.0"
+  }
+}
